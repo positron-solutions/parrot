@@ -191,11 +191,13 @@ calling ‘parrot-rotate-prev’)."
             (car rot-list)
           (cadr occurs-in-rots))))))
 
+;;;###autoload
 (defun parrot-rotate-prev-word-at-point ()
   "Rotate the word at point to the previous word in ‘parrot-rotate-dict’."
   (interactive)
   (parrot-rotate-word-at-point #'parrot-rotate-prev))
 
+;;;###autoload
 (defun parrot-rotate-next-word-at-point ()
   "Rotate the word at point to the next word in ‘parrot-rotate-dict’."
   (interactive)
