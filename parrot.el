@@ -229,7 +229,6 @@ that want to control the position of the parrot.")
          (set-default sym val)
          (parrot--refresh)))
 
-(define-obsolete-variable-alias 'parrot-animate-parrot 'parrot-animate)
 (defcustom parrot-animate 'animate
   "Animation and show/hide preference.
 Possible values: non-nil or 'animate to always show the parrot,
