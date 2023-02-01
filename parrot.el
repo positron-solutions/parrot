@@ -250,7 +250,7 @@ behavior, the same as `'no-animation'."
            (set-default sym val)
            (parrot--refresh))))
 
-(defcustom parrot-animate-on-load t
+(defcustom parrot-animate-on-load nil
   "If non-nil animate when `parrot-mode' enabled."
   :group 'parrot
   :type 'boolean
@@ -271,8 +271,7 @@ Also see `parrot-set-parrot-type'."
                  (const :tag "Thumbsup" thumbsup))
   :set (lambda (sym val)
          (set-default sym val)
-         (parrot--refresh)
-         (message (format "%s parrot selected" val))))
+         (parrot--refresh)))
 
 ;; user commands
 
