@@ -275,6 +275,7 @@ Also see `parrot-set-parrot-type'."
 
 ;; user commands
 
+;;;###autoload
 (defun parrot-start-animation (&optional persist force-animation)
   "Start the parrot animation.
 PERSIST will set `parrot--rotations' to -1 and cause infinite
