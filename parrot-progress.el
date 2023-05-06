@@ -1,4 +1,4 @@
-;;; parrot-rotate.el --- Process sentinel support for parrot.  -*- lexical-binding: t; -*-
+;;; parrot-progress.el --- Process sentinel support for parrot.  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023 Positron Solutions
 
@@ -29,13 +29,13 @@
 
 ;;; Code:
 
-(declare-function parrot-start-animation "parrot.el")
+(declare-function parrot-start-animation "parrot")
 (defun parrot--progress ()
   "Start a persistent parrot animation.
 Use `parrot-progress-finished' to stop."
   (parrot-start-animation t t))
 
-(declare-function parrot-stop-animation "parrot.el")
+(declare-function parrot-stop-animation "parrot")
 (defun parrot--progress-finished (&rest _args)
   "Stop persistent progress animation."
   (parrot-stop-animation))
@@ -58,8 +58,9 @@ just until this PROCESS is finished."
   "When process ends, stop the parrot.
 PROCESS is the running process indicated by this parrot.
 EVENT a bit of detail about current state"
-(when (memq (process-status process) '(exit signal))
-  (parrot--progress-finished)))
+(if (memq (process-status process) '(exit stop exit failed signal closed nil))
+    (parrot--progress-finished)
+  (unless (bound-and-true-p parrot--animation-timer) (parrot--progress))))
 
 (provide 'parrot-progress)
 ;;; parrot-progress.el ends here
