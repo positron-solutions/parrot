@@ -42,6 +42,7 @@
 
 ;;; Code:
 
+(require 'magit)
 (require 'parrot-rotate)
 (require 'parrot-progress)
 
@@ -178,6 +179,41 @@ stop."
   "For `doom-modeline-segment--parrot' and other custom modelines
 that want to control the position of the parrot.")
 
+;; magit-push integration implementation
+(defun parrot--magit-push-filter (fun &rest args)
+  "If the git command is a push, add a process ending listener.
+FUN is usually `magit-run-git-async'
+ARGS is args for `magit-run-git-async'"
+  (if-let* ((process (apply fun args))
+            (command (car args)))
+      (progn (when (and (stringp command) (string= "push" command))
+               (parrot--party-while-process process))
+             process)))
+
+(defun parrot--maybe-advise-magit-push ()
+  "Update advice for magit push.
+See `parrot-party-on-magit-push'."
+  (if (and parrot-mode
+           parrot-party-on-magit-push)
+      (advice-add 'magit-run-git-async :around #'parrot--magit-push-filter)
+    (advice-remove 'magit-run-git-async #'parrot--magit-push-filter)))
+
+;; org-todo integration implementation
+(defun parrot--todo-party ()
+  "Start the animation depending on the last set todo state.
+Use `party-on-org-todo-states' to control partying or not."
+  (when (member org-state parrot-party-on-org-todo-states)
+    (parrot-start-animation)))
+
+(defun parrot--maybe-add-todo-hook ()
+  "Update hook for org mode todos.
+See `parrot-party-on-org-todo-states'."
+  (if (and parrot-party-on-org-todo-states parrot-mode)
+      (add-hook 'org-after-todo-state-change-hook
+                #'parrot--todo-party)
+    (remove-hook 'org-after-todo-state-change-hook
+                 #'parrot--todo-party)))
+
 ;; customize group
 (defgroup parrot nil
   "Customization group for `parrot-mode'."
@@ -276,6 +312,26 @@ Also see `parrot-set-parrot-type'."
          (set-default sym val)
          (parrot--refresh)
          (message (format "%s parrot selected" val))))
+
+(defcustom parrot-party-on-magit-push t
+  "If non-nil a parrot will party during magit push operations."
+  :group 'parrot
+  :type 'boolean
+  :set (lambda (sym val)
+         (set-default sym val)
+         (when (and (featurep 'parrot) parrot-mode) ; loading order
+           (parrot--maybe-advise-magit-push))))
+
+(defcustom parrot-party-on-org-todo-states '("DONE")
+  "If non-nil, these org todo states will trigger party.
+This will happen whenever the `org-after-todo-state-change' hook
+is called.  See `org-todo-keywords'."
+  :group 'parrot
+  :type '(repeat string)
+  :set (lambda (sym val)
+         (set-default sym val)
+         (when (and (featurep 'parrot) parrot-mode) ; loading order
+           (parrot--maybe-add-todo-hook))))
 
 ;; user commands
 
