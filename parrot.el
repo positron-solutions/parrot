@@ -370,6 +370,7 @@ When called interactively, this function does not respect
                                                    parrot-animation-frame-interval
                                                    #'parrot--switch-anim-frame))))))
 
+;;;###autoload
 (defun parrot-stop-animation ()
   "Stop the parrot animation.
 If a persistent animation is being broken, animation will
