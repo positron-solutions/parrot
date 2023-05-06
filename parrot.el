@@ -1,10 +1,12 @@
 ;;; parrot.el --- Party Parrot rotates gracefully in mode-line.  -*- lexical-binding: t; -*-
 
-;; Author: Daniel Ting <deep.paren.12@gmail.com>
-;; URL: https://github.com/dp12/parrot.git
-;; Version: 1.1.1
+;; Copyright (C) 2023 Positron Solutions
+
+;; Author: Psionik K <73710933+psionic-k@users.noreply.github.com>
+;; URL: https://github.com/positron-solutions/parrot
+;; Version: 2.0.0
 ;; Package-Requires: ((emacs "24.1"))
-;; Keywords: party, parrot, rotate, sirocco, kakapo, games
+;; Keywords: games
 
 ;; This file is not part of GNU Emacs.
 
@@ -23,20 +25,20 @@
 
 ;;; Commentary:
 ;;
-;; A minor mode for displaying party parrot in the modeline and rotating words.
+;; A minor mode for a pet parrot in your modeline.  Animation and display is
+;; based on xpm images.
 ;;
-;; To load this file, add (require 'parrot) to your init file.  You can display
-;; the party parrot in your modeline by adding (parrot-mode).
-;;
-;; To get the parrot to rotate on new email messages in mu4e, add:
-;; (add-hook 'mu4e-index-updated-hook #'parrot-start-animation)
+;; d12 wrote the original version of this package, found here:
+;; https://github.com/dp12/parrot The programming interface and code
+;; organization were significantly overhauled to add some capabilities and make
+;; it easier to maintain.
 ;;
 ;; This animation code is a heavily modified version of Jacek "TeMPOraL"
-;; Zlydach's famous nyan-mode.  Check out his original work at
+;; Zlydach's famous nyan-mode.  Check out his original work at:
 ;; https://github.com/TeMPOraL/nyan-mode/.
 ;;
 ;; Please see README.md for more documentation, or read it online at
-;; https://github.com/dp12/parrot
+;; https://github.com/positron-solutions/parrot
 
 ;;; Code:
 
@@ -44,7 +46,7 @@
 (require 'parrot-progress)
 
 (defconst parrot-directory (file-name-directory (or load-file-name buffer-file-name)))
-(defconst parrot-modeline-help-string "mouse-1: Rotate with parrot!")
+(defconst parrot-modeline-help-string "mouse-1: Animate!")
 
 ;; ('v') (*'v') ('V'*) ('v'*)
 ;; ('v') ('V') ('>') ('^') ('<') ('V') ('v')
@@ -229,6 +231,7 @@ that want to control the position of the parrot.")
          (set-default sym val)
          (parrot--refresh)))
 
+(define-obsolete-variable-alias 'parrot-animate-parrot 'parrot-animate "2.0.0")
 (defcustom parrot-animate 'animate
   "Animation and show/hide preference.
 Possible values: non-nil or 'animate to always show the parrot,
