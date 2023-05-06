@@ -385,19 +385,21 @@ continue for `parrot-num-roatiations'"
     (when (eq parrot-animate 'hide-static)
       (parrot--remove-parrot))))
 
-(defun parrot-set-parrot-type (parrot)
+(defun parrot-set-parrot-type (parrot &optional silent)
   "Set the desired PARROT type in the mode line.
 SILENT will not show the parrot even if settings enable it."
   (interactive
    (list
     (completing-read "Select parrot: "
                      ;; TODO use the customize options list
-                     '(default confused emacs nyan rotating science thumbsup) nil t)))
+                     '(default confused emacs nyan rotating science thumbsup) nil t)
+    current-prefix-arg))
   (progn
     (setq parrot-type parrot)
-    (message (format "%s parrot selected for this session." parrot))
     (parrot--load-frames parrot-type)
-    (parrot--refresh t)))
+    (unless silent
+      (message (format "%s parrot selected for this session." parrot))
+      (parrot--refresh t))))
 
 ;;;###autoload
 (define-minor-mode parrot-mode
