@@ -86,8 +86,9 @@ For example, an animation with a total of ten frames would have a
 
 (defun parrot--create-frame (parrot id)
   "Create image for frame with parrot type PARROT and frame id ID."
-  (create-image (concat parrot-directory
-                        (format "img/%s/%s-parrot-frame-%d.xpm" parrot parrot id)) 'xpm nil :ascent 'center))
+  (create-image
+   (concat parrot-directory (format "img/%s/%s-parrot-frame-%d.xpm" parrot parrot id))
+   'xpm nil :ascent 'center))
 
 (defun parrot--load-frames (parrot)
   "Load the images for the selected PARROT."
@@ -144,7 +145,8 @@ using `parrot-create' directly whenever `parrot-mode' is active."
   "Change to the next frame in the parrot animation.
 If the parrot has already rotated for `parrot-num-rotations', the animation will
 stop."
-  (setq parrot--current-frame (% (+ 1 parrot--current-frame) (car (last parrot--frame-list))))
+  (setq parrot--current-frame
+        (% (+ 1 parrot--current-frame) (car (last parrot--frame-list))))
   (when (eq parrot--current-frame 0)
     (unless (eq -1 parrot--rotations)
       (setq parrot--rotations (+ 1 parrot--rotations)))
@@ -160,9 +162,13 @@ stop."
 
 (defun parrot--add-click-handler (string)
   "Add a handler to STRING for animating the parrot when it is clicked."
-  (propertize string 'keymap `(keymap (mode-line keymap (down-mouse-1 . ,(lambda () (interactive)
-                                                                           (parrot-start-animation)
-                                                                           (run-hooks 'parrot-click-hook)))))))
+  (propertize
+   string
+   'keymap
+   `(keymap (mode-line keymap
+                       (down-mouse-1 . ,(lambda () (interactive)
+                                          (parrot-start-animation)
+                                          (run-hooks 'parrot-click-hook)))))))
 
 (defun parrot--create ()
   "Generate the party parrot string."
@@ -170,9 +176,10 @@ stop."
           (< (window-width) parrot-minimum-window-width))
       ""                                ; disabled for too small windows
     (let ((parrot-string (make-string parrot-spaces-before ?\s)))
-      (setq parrot-string (concat parrot-string (parrot--add-click-handler
-                                                 (propertize "-" 'display (parrot--get-anim-frame)))
-                                  (make-string parrot-spaces-after ?\s)))
+      (setq parrot-string
+            (concat parrot-string (parrot--add-click-handler
+                                   (propertize "-" 'display (parrot--get-anim-frame)))
+                    (make-string parrot-spaces-after ?\s)))
       (propertize parrot-string 'help-echo parrot-modeline-help-string))))
 
 (defalias 'parrot-create 'parrot--create
@@ -236,7 +243,7 @@ See `parrot-party-on-org-todo-states'."
          (parrot--refresh t)))
 
 (defcustom parrot-minimum-window-width 45
-  "Determines the minimum width of the window, below which party parrot will not be displayed."
+  "Determines the minimum width of the window."
   :group 'parrot
   :type 'integer
   :set (lambda (sym val)
@@ -275,12 +282,12 @@ animating or not.  `'no-animation' to show the parrot but never
 animate it.  `'hide-static' to only show the parrot when not
 animating.
 
-nil will rever to the legacy `parrot-animate-parrot' no animation
+nil will revert to the legacy `parrot-animate-parrot' no animation
 behavior, the same as `'no-animation'."
   :group 'parrot
-  :type '(choice (const :tag "Always show" animate)
-                 (const :tag "No animation" no-animation)
-                 (const :tag "Hide when not animating" hide-static))
+  :type '(choice (const :tag "Animate and always show" animate)
+                 (const :tag "Show but never animate" no-animation)
+                 (const :tag "Animate, but hide when not animating" hide-static))
   :set (lambda (sym val)
          ;; map legacy nil value to 'no-animation
          ;; map legacy t value to 'animate
