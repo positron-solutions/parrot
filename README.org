@@ -140,7 +140,7 @@
    advise a function that returns a process to add an extra sentinel to that
    process, allowing you to party on any process!
 
-   The =parrot--party-while-process= function can be used to animate any
+   The =parrot-party-while-process= function can be used to animate any
    arbitrary process that will finish with a process sentinel.
 
 * Rotation command configuration
