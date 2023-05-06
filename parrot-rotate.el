@@ -124,6 +124,7 @@ change it to [\]\[[:space:](){}<>] to treat braces/brackets as boundaries."
   "Face used for highlighting rotations."
   :group 'parrot-rotate)
 
+(declare-function cl-mapcan "cl-lib" (cl-func cl-seq &rest cl-rest))
 (defun parrot-rotate-convert-rotations-to-regexp (rotations)
   "Return regular expressions for all entries in ROTATIONS.
 ROTATIONS contains lists of strings with optional :lower, :caps, or :upcase
