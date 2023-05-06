@@ -1,10 +1,11 @@
-;;; parrot-rotate.el --- Parrot rotates words with smooth circular motions.  -*- lexical-binding: t; -*-
+;;; parrot-rotate.el --- Process sentinel support for parrot.  -*- lexical-binding: t; -*-
 
-;; Author: Daniel Ting <deep.paren.12@gmail.com>
-;; URL: https://github.com/dp12/parrot.git
-;; Version: 1.1.1
+;; Copyright (C) 2023 Positron Solutions
+
+;; Author: Psionik K <73710933+psionic-k@users.noreply.github.com>
+;; URL: https://github.com/positron-solutions/parrot
+;; Version: 2.0.0
 ;; Package-Requires: ((emacs "24.1"))
-;; Keywords: party, parrot, rotate, sirocco, kakapo, convenience
 
 ;; This file is not part of GNU Emacs.
 
@@ -23,10 +24,8 @@
 
 ;;; Commentary:
 ;;
-;; This usage of the main parrot feature is sligthly contrary to the rotate
-;; usage.  The two need to be reconciled.  Rotate makes no attempt to track how
-;; many current parrot-requiring activities are still animating, so it may
-;; suddently stop animation or fail to stop it.
+;; This sub-package adds the progress functionality, which can watch arbitrary
+;; processes using the process-sentinel.
 
 ;;; Code:
 
@@ -69,7 +68,7 @@ Use `parrot-progress-finished' to stop."
   "Party until the provided process completes.
 
 PROCESS the git process Replace sentinel for PROCESS, usually
-`magit-process-sentinel' and modify it to call our own sentinal
+`magit-process-sentinel' and modify it to call our own sentinel
 just until this PROCESS is finished."
   (if-let ((sentinel (process-sentinel process)))
       (set-process-sentinel process
@@ -120,5 +119,4 @@ See `parrot-party-on-org-todo-states'."
                  #'parrot--todo-party)))
 
 (provide 'parrot-progress)
-
 ;;; parrot-progress.el ends here

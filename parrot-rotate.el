@@ -1,8 +1,8 @@
 ;;; parrot-rotate.el --- Parrot rotates words with smooth circular motions.  -*- lexical-binding: t; -*-
 
 ;; Author: Daniel Ting <deep.paren.12@gmail.com>
-;; URL: https://github.com/dp12/parrot.git
-;; Version: 1.1.1
+;; Author: Psionik K <73710933+psionic-k@users.noreply.github.com>
+;; URL: https://github.com/positron-solutions/parrot
 ;; Package-Requires: ((emacs "24.1"))
 ;; Keywords: party, parrot, rotate, sirocco, kakapo, convenience
 
