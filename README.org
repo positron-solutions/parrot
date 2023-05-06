@@ -33,207 +33,239 @@
 
    M-x =parrot-start-animation= or click on the parrot to watch it animate.
 
-** Animation Behavior
+* Contents
+:PROPERTIES:
+:TOC:      :include siblings :ignore this
+:END:
+:CONTENTS:
+- [[#animation-behavior][Animation Behavior]]
+  - [[#available-parrots][Available Parrots]]
+- [[#adding-animations][Adding animations]]
+  - [[#hooks][Hooks]]
+    - [[#org-todo-state-hook][Org Todo state hook]]
+  - [[#advice][Advice]]
+  - [[#parrot-click-hook][Parrot click hook]]
+  - [[#processes][Processes]]
+- [[#rotation-command-configuration][Rotation command configuration]]
+  - [[#rotation-keybindings][Rotation keybindings]]
+  - [[#rotation-dictionary][Rotation dictionary]]
+  - [[#rotation-behavior][Rotation behavior]]
+- [[#acknowledgments][Acknowledgments]]
+:END:
 
-   - =parrot-animation-frame-interval= - seconds between animation frames; can
-     be a decimal number.
-   - =parrot-minimum-window-width= - minimum width of the window, below which
-     party parrot mode will be disabled.
-   - =parrot-animate - ='animate= to enable parrot animation, ='no-animation=
-     for a static image, ='hide-static= to only show while animating.
-   - =parrot-animate-on-load= - animate when mode started no matter other
-     settings.
-   - =parrot-spaces-before= - number of spaces of padding before the parrot.
-   - =parrot-spaces-after= - number of spaces of padding after the parrot.
-   - =parrot-num-rotations= - number of times the parrot will cycle through its
-     gif.
+* Animation Behavior
 
-*** Available Parrots
+  - =parrot-animation-frame-interval= - seconds between animation frames; can
+    be a decimal number.
+  - =parrot-minimum-window-width= - minimum width of the window, below which
+    party parrot mode will be disabled.
+  - =parrot-animate - ='animate= to enable parrot animation, ='no-animation=
+    for a static image, ='hide-static= to only show while animating.
+  - =parrot-animate-on-load= - animate when mode started no matter other
+    settings.
+  - =parrot-spaces-before= - number of spaces of padding before the parrot.
+  - =parrot-spaces-after= - number of spaces of padding after the parrot.
+  - =parrot-num-rotations= - number of times the parrot will cycle through its
+    gif.
 
-  By default, after a rotation is performed, the selected parrot in the modeline
-  will start rotating. You may select your desired parrot interactively with
-  =M-x parrot-set-parrot-type= to preview.
+** Available Parrots
 
-  Like the wonders of the ancient world, parrot comes in 7 original flavors:
-  | Parrot                                   | Name     |
-  |------------------------------------------+----------|
-  | [[file:https://i.imgur.com/53YCmpd.gif]] | default  |
-  | [[file:https://i.imgur.com/svleFy1.gif]] | confused |
-  | [[file:https://i.imgur.com/DSExpFD.gif]] | emacs    |
-  | [[file:https://i.imgur.com/xpUahDq.gif]] | nyan     |
-  | [[file:https://i.imgur.com/BnSpEwK.gif]] | rotating |
-  | [[file:https://i.imgur.com/fMf23JR.gif]] | science  |
-  | [[file:https://i.imgur.com/WmXn4wz.gif]] | thumbsup |
+ By default, after a rotation is performed, the selected parrot in the modeline
+ will start rotating. You may select your desired parrot interactively with
+ =M-x parrot-set-parrot-type= to preview.
 
-** Adding animations
-   There are many ways to incorporate animation into your daily life.
-*** Hooks
+ Like the wonders of the ancient world, parrot comes in 7 original flavors:
+ | Parrot                                   | Name     |
+ |------------------------------------------+----------|
+ | [[file:https://i.imgur.com/53YCmpd.gif]] | default  |
+ | [[file:https://i.imgur.com/svleFy1.gif]] | confused |
+ | [[file:https://i.imgur.com/DSExpFD.gif]] | emacs    |
+ | [[file:https://i.imgur.com/xpUahDq.gif]] | nyan     |
+ | [[file:https://i.imgur.com/BnSpEwK.gif]] | rotating |
+ | [[file:https://i.imgur.com/fMf23JR.gif]] | science  |
+ | [[file:https://i.imgur.com/WmXn4wz.gif]] | thumbsup |
 
-    For example, if you want the parrot to animate whenever you receive mail in
-    mu4e, you can try:
+* Adding animations
 
-    #+begin_src emacs-lisp
-      (add-hook 'mu4e-index-updated-hook #'parrot-start-animation)
-    #+end_src
+  There are many ways to incorporate animation into your daily life.
 
-**** Org Todo state hook
+  - Add =#'parrot-start-animation= to hooks
+  - Add advice to arbitrary functions
+  - Add a command or function to the parrot click hook
+  - Add a process filter and animate while the process is running
 
-    By default, the =org-after-todo-state-change-hook= has =parrot--todo-party=
-    added so that if the =org-state= is in =parrot-party-on-org-todo-states=,
-    animation will occur.
+** Hooks
 
-*** Advice
-
-    If no hook is available, just add an advice to a function or command:
-
-    #+begin_src emacs-lisp
-      (advice-add #'jinx-correct :after #'parrot-start-animation)
-    #+end_src
-
-*** Parrot click hook
-
-    You can also add functions to =parrot-click-hook= so they will run whenever
-    you click on the parrot.
-
-    #+begin_src emacs-lisp
-    (add-hook 'parrot-click-hook 'flyspell-buffer)
-    #+end_src
-
-    Calling =parrot-start-animation= with t will also run forever until you run
-    =parrot-stop-animation=, and then will stop after =parrot-num-rotations=
-    more.
-
-*** Processes
-
-    By default, =magit-push= will animate the parrot until the process sentinel
-    stops it.  This is configured by the custom variable
-    =parrot-party-on-magit-push=.
-
-    Check out the =parrot--maybe-advise-magit-push= for an example of how to
-    advise a function that returns a process to add an extra sentinel to that
-    process, allowing you to party on any process!
-
-    The =parrot--party-while-process= function can be used to animate any
-    arbitrary process that will finish with a process sentinel.
-
-** Rotation command configuration
-
-   This section covers the rotate commands and behavior. Try the command
-   =parrot-rotate-prev-word-at-point= on the string "start" to preview the
-   behavior.
-
-*** Rotation keybindings
-
-   Use =parrot-rotate-next-word-at-point= and =parrot-rotate-prev-word-at-point=
-   to rotate words at point. If a match is not found under the cursor, parrot
-   will hunt for the nearest match in the current whitespace-delimited word and
-   rotate it.
+   For example, if you want the parrot to animate whenever you receive mail in
+   mu4e, you can try:
 
    #+begin_src emacs-lisp
-     ;; for vanilla emacs
-     (global-set-key (kbd "C-c p") 'parrot-rotate-prev-word-at-point)
-     (global-set-key (kbd "C-c n") 'parrot-rotate-next-word-at-point)
-
-     ;; for evil users
-     (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
-     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
+     (add-hook 'mu4e-index-updated-hook #'parrot-start-animation)
    #+end_src
 
-*** Rotation dictionary
+*** Org Todo state hook
 
-    Parrot uses a dictionary list that defines word rotations. You can override the
-    default by setting =parrot-rotate-dict= in your init file. A sample one is
-    provided below:
+   By default, the =org-after-todo-state-change-hook= has =parrot--todo-party=
+   added so that if the =org-state= is in =parrot-party-on-org-todo-states=,
+   animation will occur.
 
-    #+begin_src emacs-lisp
-      (setq parrot-rotate-dict
-            '(
-              (:rot ("alpha" "beta") :caps t :lower nil)
-              ;; => rotations are "Alpha" "Beta"
+** Advice
 
-              (:rot ("snek" "snake" "stawp"))
-              ;; => rotations are "snek" "snake" "stawp"
+   If no hook is available, just add an advice to a function or command:
 
-              (:rot ("yes" "no") :caps t :upcase t)
-              ;; => rotations are "yes" "no", "Yes" "No", "YES" "NO"
+   #+begin_src emacs-lisp
+     (advice-add #'jinx-correct :after #'parrot-start-animation)
+   #+end_src
 
-              (:rot ("&" "|"))
-              ;; => rotations are "&" "|"
+** Parrot click hook
 
-              ;; default dictionary starts here ('v')
-              (:rot ("begin" "end") :caps t :upcase t)
-              (:rot ("enable" "disable") :caps t :upcase t)
-              (:rot ("enter" "exit") :caps t :upcase t)
-              (:rot ("forward" "backward") :caps t :upcase t)
-              (:rot ("front" "rear" "back") :caps t :upcase t)
-              (:rot ("get" "set") :caps t :upcase t)
-              (:rot ("high" "low") :caps t :upcase t)
-              (:rot ("in" "out") :caps t :upcase t)
-              (:rot ("left" "right") :caps t :upcase t)
-              (:rot ("min" "max") :caps t :upcase t)
-              (:rot ("on" "off") :caps t :upcase t)
-              (:rot ("prev" "next"))
-              (:rot ("start" "stop") :caps t :upcase t)
-              (:rot ("true" "false") :caps t :upcase t)
-              (:rot ("&&" "||"))
-              (:rot ("==" "!="))
-              (:rot ("." "->"))
-              (:rot ("if" "else" "elif"))
-              (:rot ("ifdef" "ifndef"))
-              (:rot ("int8_t" "int16_t" "int32_t" "int64_t"))
-              (:rot ("uint8_t" "uint16_t" "uint32_t" "uint64_t"))
-              (:rot ("1" "2" "3" "4" "5" "6" "7" "8" "9" "10"))
-              (:rot ("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th"))
-              ))
-    #+end_src
+   You can also add functions to =parrot-click-hook= so they will run whenever
+   you click on the parrot.
 
-    The following labels are provided for defining rotations in a dictionary entry:
-    - =:upcase t= will add UPPER CASE rotations
-    - =:caps t= will add Capitalized rotations
-    - =:lower nil= will exclude lowercase rotations
-    - If no labels are provided, the word list will default to lowercase rotations
-    - Defining a word list for which there are no rotations will result in an error, e.g. =(:rot ("yes" "no") :lower nil)=.
+   #+begin_src emacs-lisp
+   (add-hook 'parrot-click-hook 'flyspell-buffer)
+   #+end_src
 
-    You can also append to the default dictionary:
-    #+begin_src emacs-lisp
-    (dolist (entry '((:rot ("hakuna" "matata"))
-                     (:rot ("peeple" "sheeple"))))
-      (add-to-list 'parrot-rotate-dict entry))
-    #+end_src
+   Calling =parrot-start-animation= with t will also run forever until you run
+   =parrot-stop-animation=, and then will stop after =parrot-num-rotations=
+   more.
 
-*** Rotation behavior
-    - =parrot-rotate-hunt-for-words= - =t= to rotate words that aren't directly under the cursor.
-    - =parrot-rotate-jump-to-word-after-hunt= - =t= to jump to the word rotated if it isn't under the cursor.
-    - =parrot-rotate-animate-after-rotation= - =t= to animate the party parrot after rotating a word.
-    - =parrot-rotate-highlight-after-rotation= - =t= to highlight a word after rotating.
-    - =parrot-rotate-start-char-invalid-regexp= - regexp used to determine if parrot shouldn't start a rotation.
-    - =parrot-rotate-start-bound-regexp= - regexp used to find the start bound to search for rotations.
-    - =parrot-rotate-end-bound-regexp= - regexp used to find the end bound to search for rotations.
-** Acknowledgments
+** Processes
 
-   [[https://github.com/dp12][d12]] wrote the [[https://github.com/dp12/parrot][original version]] of this package.  I decided to fork it mainly
-   for independence.  As d12 credits many, so do I credit d12 and many for
-   enabling this package to reach its current form.
+   By default, =magit-push= will animate the parrot until the process sentinel
+   stops it.  This is configured by the custom variable
+   =parrot-party-on-magit-push=.
 
-   All parrots including the gifs in this README (with the exception of emacs
-   parrot) were taken from [[https://github.com/jmhobbs][@jmhobbs]] [[https://github.com/jmhobbs/cultofthepartyparrot.com][Cult of the Party Parrot site]]. Thanks to
-   [[https://github.com/mermop][@mermop]] (default), [[https://github.com/kyprifog][@kyprifog]] (confused), [[https://github.com/shiruken][@shiruken]] (science), [[https://github.com/vaicine][@vaicine]] (nyan),
-   [[https://github.com/youngcba3][@youngcba3]] (rotating), [[https://github.com/zeftilldeath][@zeftilldeath]] (thumbsup parrot) for their respective
-   parrots, and of course [[https://github.com/jmhobbs][@jmhobbs]] for compiling them.
+   Check out the =parrot--maybe-advise-magit-push= for an example of how to
+   advise a function that returns a process to add an extra sentinel to that
+   process, allowing you to party on any process!
 
-   Thanks to [[https://github.com/francoislg][@francoislg]] for [[https://github.com/francoislg/PPaaS][Party Parrot as a Service]], with which d12 created the
-   emacs parrot.
+   The =parrot--party-while-process= function can be used to animate any
+   arbitrary process that will finish with a process sentinel.
 
-   Thanks to Aaron Hawley, from whom d12 borrowed a good deal of their rotation
-   code. You can see his rotate text implementation on [[https://www.emacswiki.org/emacs/RotateText][emacswiki]].
+* Rotation command configuration
 
-   Thanks to [[https://github.com/rejeep][@rejeep]] for ecukes, an excellent Cucumber-like testing framework.
+  This section covers the rotate commands and behavior. Try the command
+  =parrot-rotate-prev-word-at-point= on the string "start" to preview the
+  behavior.
 
-   Thanks to [[https://github.com/DamienCassou][@DamienCassou]] for his detailed and thoughtful code review comments.
+** Rotation keybindings
 
-   A special thanks to [[https://github.com/TeMPOraL][@TeMPOral]], without which parrot wouldn't be possible. d12
-   heavily modified the source code of nyan-mode to create parrot spawn. All
-   credit goes to him for paving the way to new heights of mode-line
-   distraction.
+  Use =parrot-rotate-next-word-at-point= and =parrot-rotate-prev-word-at-point=
+  to rotate words at point. If a match is not found under the cursor, parrot
+  will hunt for the nearest match in the current whitespace-delimited word and
+  rotate it.
+
+  #+begin_src emacs-lisp
+    ;; for vanilla emacs
+    (global-set-key (kbd "C-c p") 'parrot-rotate-prev-word-at-point)
+    (global-set-key (kbd "C-c n") 'parrot-rotate-next-word-at-point)
+
+    ;; for evil users
+    (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
+    (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point)
+  #+end_src
+
+** Rotation dictionary
+
+   Parrot uses a dictionary list that defines word rotations. You can override the
+   default by setting =parrot-rotate-dict= in your init file. A sample one is
+   provided below:
+
+   #+begin_src emacs-lisp
+     (setq parrot-rotate-dict
+           '(
+             (:rot ("alpha" "beta") :caps t :lower nil)
+             ;; => rotations are "Alpha" "Beta"
+
+             (:rot ("snek" "snake" "stawp"))
+             ;; => rotations are "snek" "snake" "stawp"
+
+             (:rot ("yes" "no") :caps t :upcase t)
+             ;; => rotations are "yes" "no", "Yes" "No", "YES" "NO"
+
+             (:rot ("&" "|"))
+             ;; => rotations are "&" "|"
+
+             ;; default dictionary starts here ('v')
+             (:rot ("begin" "end") :caps t :upcase t)
+             (:rot ("enable" "disable") :caps t :upcase t)
+             (:rot ("enter" "exit") :caps t :upcase t)
+             (:rot ("forward" "backward") :caps t :upcase t)
+             (:rot ("front" "rear" "back") :caps t :upcase t)
+             (:rot ("get" "set") :caps t :upcase t)
+             (:rot ("high" "low") :caps t :upcase t)
+             (:rot ("in" "out") :caps t :upcase t)
+             (:rot ("left" "right") :caps t :upcase t)
+             (:rot ("min" "max") :caps t :upcase t)
+             (:rot ("on" "off") :caps t :upcase t)
+             (:rot ("prev" "next"))
+             (:rot ("start" "stop") :caps t :upcase t)
+             (:rot ("true" "false") :caps t :upcase t)
+             (:rot ("&&" "||"))
+             (:rot ("==" "!="))
+             (:rot ("." "->"))
+             (:rot ("if" "else" "elif"))
+             (:rot ("ifdef" "ifndef"))
+             (:rot ("int8_t" "int16_t" "int32_t" "int64_t"))
+             (:rot ("uint8_t" "uint16_t" "uint32_t" "uint64_t"))
+             (:rot ("1" "2" "3" "4" "5" "6" "7" "8" "9" "10"))
+             (:rot ("1st" "2nd" "3rd" "4th" "5th" "6th" "7th" "8th" "9th" "10th"))
+             ))
+   #+end_src
+
+   The following labels are provided for defining rotations in a dictionary entry:
+   - =:upcase t= will add UPPER CASE rotations
+   - =:caps t= will add Capitalized rotations
+   - =:lower nil= will exclude lowercase rotations
+   - If no labels are provided, the word list will default to lowercase rotations
+   - Defining a word list for which there are no rotations will result in an error, e.g. =(:rot ("yes" "no") :lower nil)=.
+
+   You can also append to the default dictionary:
+   #+begin_src emacs-lisp
+   (dolist (entry '((:rot ("hakuna" "matata"))
+                    (:rot ("peeple" "sheeple"))))
+     (add-to-list 'parrot-rotate-dict entry))
+   #+end_src
+
+** Rotation behavior
+   - =parrot-rotate-hunt-for-words= - =t= to rotate words that aren't directly under the cursor.
+   - =parrot-rotate-jump-to-word-after-hunt= - =t= to jump to the word rotated if it isn't under the cursor.
+   - =parrot-rotate-animate-after-rotation= - =t= to animate the party parrot after rotating a word.
+   - =parrot-rotate-highlight-after-rotation= - =t= to highlight a word after rotating.
+   - =parrot-rotate-start-char-invalid-regexp= - regexp used to determine if parrot shouldn't start a rotation.
+   - =parrot-rotate-start-bound-regexp= - regexp used to find the start bound to search for rotations.
+   - =parrot-rotate-end-bound-regexp= - regexp used to find the end bound to search for rotations.
+* Acknowledgments
+
+  [[https://github.com/dp12][d12]] wrote the [[https://github.com/dp12/parrot][original version]] of this package.  I decided to fork it mainly
+  for independence.  As d12 credits many, so do I credit d12 and many for
+  enabling this package to reach its current form.
+
+  All parrots including the gifs in this README (with the exception of emacs
+  parrot) were taken from [[https://github.com/jmhobbs][@jmhobbs]] [[https://github.com/jmhobbs/cultofthepartyparrot.com][Cult of the Party Parrot site]]. Thanks to
+  [[https://github.com/mermop][@mermop]] (default), [[https://github.com/kyprifog][@kyprifog]] (confused), [[https://github.com/shiruken][@shiruken]] (science), [[https://github.com/vaicine][@vaicine]] (nyan),
+  [[https://github.com/youngcba3][@youngcba3]] (rotating), [[https://github.com/zeftilldeath][@zeftilldeath]] (thumbsup parrot) for their respective
+  parrots, and of course [[https://github.com/jmhobbs][@jmhobbs]] for compiling them.
+
+  Thanks to [[https://github.com/francoislg][@francoislg]] for [[https://github.com/francoislg/PPaaS][Party Parrot as a Service]], with which d12 created the
+  emacs parrot.
+
+  Thanks to Aaron Hawley, from whom d12 borrowed a good deal of their rotation
+  code. You can see his rotate text implementation on [[https://www.emacswiki.org/emacs/RotateText][emacswiki]].
+
+  Thanks to [[https://github.com/rejeep][@rejeep]] for ecukes, an excellent Cucumber-like testing framework.
+
+  Thanks to [[https://github.com/DamienCassou][@DamienCassou]] for his detailed and thoughtful code review comments.
+
+  A special thanks to [[https://github.com/TeMPOraL][@TeMPOral]], without which parrot wouldn't be possible. d12
+  heavily modified the source code of nyan-mode to create parrot spawn. All
+  credit goes to him for paving the way to new heights of mode-line
+  distraction.
 
 [[file:parrot3cat.png]]
+
+# Local Variables:
+# before-save-hook: (lambda () (when (require 'org-make-toc nil t) (org-make-toc)))
+# org-make-toc-link-type-fn: org-make-toc--link-entry-github
+# End:
