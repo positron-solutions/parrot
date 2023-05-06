@@ -194,7 +194,7 @@ ARGS is args for `magit-run-git-async'"
   (if-let* ((process (apply fun args))
             (command (car args)))
       (progn (when (and (stringp command) (string= "push" command))
-               (parrot--party-while-process process))
+               (parrot-party-while-process process))
              process)))
 
 (defun parrot--maybe-advise-magit-push ()

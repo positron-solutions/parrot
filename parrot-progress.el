@@ -30,17 +30,17 @@
 ;;; Code:
 
 (declare-function parrot-start-animation "parrot.el")
-(defun parrot-progress ()
+(defun parrot--progress ()
   "Start a persistent parrot animation.
 Use `parrot-progress-finished' to stop."
   (parrot-start-animation t t))
 
 (declare-function parrot-stop-animation "parrot.el")
-(defun parrot-progress-finished (&rest _args)
+(defun parrot--progress-finished (&rest _args)
   "Stop persistent progress animation."
   (parrot-stop-animation))
 
-(defun parrot--party-while-process (process)
+(defun parrot-party-while-process (process)
   "Party until the provided process completes.
 
 PROCESS the git process Replace sentinel for PROCESS, usually
@@ -50,16 +50,16 @@ just until this PROCESS is finished."
       (set-process-sentinel process
                             (lambda (&rest args)
                               (apply sentinel args)
-                              (apply #'parrot-progress-finished args)))
-    (set-process-sentinel process #'parrot-progress-finished))
-  (parrot-progress))
+                              (apply #'parrot--progress-finished args)))
+    (set-process-sentinel process #'parrot--progress-finished))
+  (parrot--progress))
 
 (defun parrot--sentinel (process _event)
   "When process ends, stop the parrot.
 PROCESS is the running process indicated by this parrot.
 EVENT a bit of detail about current state"
 (when (memq (process-status process) '(exit signal))
-  (parrot-progress-finished)))
+  (parrot--progress-finished)))
 
 (provide 'parrot-progress)
 ;;; parrot-progress.el ends here
