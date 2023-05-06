@@ -317,8 +317,7 @@ Also see `parrot-set-parrot-type'."
                  (const :tag "Thumbsup" thumbsup))
   :set (lambda (sym val)
          (set-default sym val)
-         (parrot--refresh)
-         (message (format "%s parrot selected" val))))
+         (parrot--refresh)))
 
 (defcustom parrot-party-on-magit-push t
   "If non-nil a parrot will party during magit push operations."
@@ -384,7 +383,7 @@ continue for `parrot-num-roatiations'"
     (when (eq parrot-animate 'hide-static)
       (parrot--remove-parrot))))
 
-(defun parrot-set-parrot-type (parrot &optional silent)
+(defun parrot-set-parrot-type (parrot)
   "Set the desired PARROT type in the mode line.
 SILENT will not show the parrot even if settings enable it."
   (interactive
@@ -392,11 +391,11 @@ SILENT will not show the parrot even if settings enable it."
     (completing-read "Select parrot: "
                      ;; TODO use the customize options list
                      '(default confused emacs nyan rotating science thumbsup) nil t)))
-  (if silent
-      (prog1
-          (setq parrot-type parrot)
-        (parrot--load-frames parrot-type))
-    (custom-set-variables `(parrot-type ,parrot))))
+  (progn
+    (setq parrot-type parrot)
+    (message (format "%s parrot selected for this session." parrot))
+    (parrot--load-frames parrot-type)
+    (parrot--refresh t)))
 
 ;;;###autoload
 (define-minor-mode parrot-mode
