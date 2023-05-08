@@ -371,6 +371,12 @@ When called interactively, this function does not respect
                                                    #'parrot--switch-anim-frame))))))
 
 ;;;###autoload
+(defun parrot-party-forever ()
+  "Don't stop animating until stop is called."
+  (interactive)
+  (parrot-start-animation t t))
+
+;;;###autoload
 (defun parrot-stop-animation ()
   "Stop the parrot animation.
 If a persistent animation is being broken, animation will
