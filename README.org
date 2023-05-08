@@ -1,7 +1,7 @@
 * Parrot [[file:https://cultofthepartyparrot.com/parrots/parrot.gif]]
 
-   Animated pet parrot for your modeline.  Includes Org TODO and magit push
-   integration to reward your hard work.
+   Animated pet parrot for your modeline.  *This fork* includes Org
+   TODO and magit push integration to reward your hard work.
 
    [[file:parrot_in_action.gif]]
 
