@@ -1,11 +1,11 @@
-;;; parrot.el --- Party Parrot rotates gracefully in mode-line.  -*- lexical-binding: t; -*-
+;;; parrot.el --- Party Parrot rotates gracefully in mode-line  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2023 Positron Solutions
 
 ;; Author: Psionik K <73710933+psionic-k@users.noreply.github.com>
 ;; URL: https://github.com/positron-solutions/parrot
 ;; Version: 2.0.0
-;; Package-Requires: ((emacs "24.1"))
+;; Package-Requires: ((emacs "26.1"))
 ;; Keywords: games
 
 ;; This file is not part of GNU Emacs.
