@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2023 Positron Solutions
 
-;; Author: Psionik K <73710933+psionic-k@users.noreply.github.com>
+;; Author: Psionic K <contact@positron.solutions>
 ;; URL: https://github.com/positron-solutions/parrot
 ;; Version: 2.0.0
 ;; Package-Requires: ((emacs "24.1"))
