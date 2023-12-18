@@ -156,12 +156,6 @@ stop."
       (parrot-stop-animation)))
   (force-mode-line-update))
 
-(defun parrot--get-anim-frame ()
-  "Get the current animation frame."
-  (if (not (memq parrot-animate '(no-animation)))
-      (nth parrot--current-frame parrot--animation-frames)
-    parrot--static-image))
-
 (defun parrot--add-click-handler (string)
   "Add a handler to STRING for animating the parrot when it is clicked."
   (propertize
@@ -207,11 +201,12 @@ See `parrot-party-on-magit-push'."
       (advice-add 'magit-run-git-async :around #'parrot--magit-push-filter)
     (advice-remove 'magit-run-git-async #'parrot--magit-push-filter)))
 
-;; org-todo integration implementation
 (defun parrot--todo-party ()
   "Start the animation depending on the last set todo state.
 Use `party-on-org-todo-states' to control partying or not."
-  (when (member org-state parrot-party-on-org-todo-states)
+  ;; `org-state' is only bound during the hook body
+  (when (and (boundp 'org-state)
+             (member org-state parrot-party-on-org-todo-states))
     (parrot-start-animation)))
 
 (defun parrot--maybe-add-todo-hook ()
@@ -344,6 +339,12 @@ is called.  See `org-todo-keywords'."
          (set-default sym val)
          (when (and (featurep 'parrot) parrot-mode) ; loading order
            (parrot--maybe-add-todo-hook))))
+
+(defun parrot--get-anim-frame ()
+  "Get the current animation frame."
+  (if (not (memq parrot-animate '(no-animation)))
+      (nth parrot--current-frame parrot--animation-frames)
+    parrot--static-image))
 
 ;; user commands
 
