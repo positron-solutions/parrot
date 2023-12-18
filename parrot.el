@@ -66,7 +66,8 @@ If you are a `doom-modeline' user, see `doom-modeline-segment--parrot'")
 (defvar parrot--animation-frames nil
   "A list of the animation frames for the current parrot.")
 (defvar parrot--current-frame 0)
-(defvar parrot--frame-list (number-sequence 1 10)  ;; TODO this is a bit oddly named and also initialized wrong.
+;; TODO this should be initialized from the data, not hard coded.
+(defvar parrot--frame-list (number-sequence 1 10)
   "List of indices for the parrot animation frames.
 For example, an animation with a total of ten frames would have a
 `parrot-frame-list` of (1 2 3 4 5 6 7 8 9 10)")
@@ -278,13 +279,17 @@ See `parrot-party-on-org-todo-states'."
 (define-obsolete-variable-alias 'parrot-animate-parrot 'parrot-animate "2.0.0")
 (defcustom parrot-animate 'animate
   "Animation and show/hide preference.
-Possible values: non-nil or 'animate to always show the parrot,
-animating or not.  `'no-animation' to show the parrot but never
-animate it.  `'hide-static' to only show the parrot when not
+Possible values:
+
+- non-nil or the symbol `animate' to always show the parrot,
+animating or not.
+
+- The symbol `no-animation' to show the parrot but never animate
+it.  The symbol `hide-static' to only show the parrot when not
 animating.
 
-nil will revert to the legacy `parrot-animate-parrot' no animation
-behavior, the same as `'no-animation'."
+- nil will revert to the legacy `parrot-animate-parrot' no
+  animation behavior, the same as `'no-animation'."
   :group 'parrot
   :type '(choice (const :tag "Animate and always show" animate)
                  (const :tag "Show but never animate" no-animation)
