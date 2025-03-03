@@ -127,7 +127,7 @@ If you are a `doom-modeline' user, see
 using `parrot-create' directly whenever `parrot-mode' is active."
   (unless parrot--visible
     (progn
-      (unless parrot--old-cdr-mode-line-position
+      (unless (or parrot--old-cdr-mode-line-position (not mode-line-position))
         (setq parrot--old-cdr-mode-line-position (cdr mode-line-position))
         (setcdr mode-line-position (cons '(:eval (list (parrot--create)))
                                          (cdr parrot--old-cdr-mode-line-position))))
