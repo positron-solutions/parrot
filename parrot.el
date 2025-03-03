@@ -129,8 +129,10 @@ using `parrot-create' directly whenever `parrot-mode' is active."
     (progn
       (unless parrot--old-cdr-mode-line-position
         (setq parrot--old-cdr-mode-line-position (cdr mode-line-position))
-        (setcdr mode-line-position (cons '(:eval (list (parrot--create)))
-                                         (cdr parrot--old-cdr-mode-line-position))))
+        (when mode-line-position
+          (setcdr mode-line-position
+                  (cons '(:eval (list (parrot--create)))
+                        (cdr parrot--old-cdr-mode-line-position)))))
       (setf parrot--visible t)
       (force-mode-line-update))))
 
@@ -138,7 +140,8 @@ using `parrot-create' directly whenever `parrot-mode' is active."
   "Remove parrot from modeline."
   (when parrot--visible
     (progn
-      (setcdr mode-line-position parrot--old-cdr-mode-line-position)
+      (when mode-line-position
+        (setcdr mode-line-position parrot--old-cdr-mode-line-position))
       (setf parrot--old-cdr-mode-line-position nil)
       (setf parrot--visible nil)
       (force-mode-line-update))))
