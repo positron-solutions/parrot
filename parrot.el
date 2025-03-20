@@ -47,6 +47,9 @@
 (require 'parrot-progress)
 (declare-function magit-run-git-async "magit-process" t)
 
+(eval-when-compile
+  (require 'magit nil t))
+
 (defconst parrot-directory (file-name-directory (or load-file-name buffer-file-name)))
 (defconst parrot-modeline-help-string "mouse-1: Animate!")
 
@@ -428,8 +431,8 @@ You can customize this minor mode, see `customize-group' `parrot'."
         (parrot--load-frames parrot-type)
         (if parrot-animate-on-load
             (parrot-start-animation nil t)
-          (if (memq parrot-animate '(animate no-animation))
-              (parrot--show-parrot)))
+          (when (memq parrot-animate '(animate no-animation))
+            (parrot--show-parrot)))
         (parrot--maybe-add-todo-hook)
         (parrot--maybe-advise-magit-push))
     (progn
