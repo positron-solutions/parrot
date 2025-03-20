@@ -286,7 +286,7 @@ Possible values:
 animating or not.
 
 - The symbol `no-animation' to show the parrot but never animate
-it.  The symbol `hide-static' to only show the parrot when not
+it.  The symbol `hide-static' to only show the parrot when
 animating.
 
 - nil will revert to the legacy `parrot-animate-parrot' no
