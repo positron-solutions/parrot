@@ -390,7 +390,7 @@ When called interactively, this function does not respect
 (defun parrot-stop-animation ()
   "Stop the parrot animation.
 If a persistent animation is being broken, animation will
-continue for `parrot-num-roatiations'"
+continue for `parrot-num-rotations'"
   (interactive)
   (if (eq parrot--rotations -1)
       (setq parrot--rotations 0)
