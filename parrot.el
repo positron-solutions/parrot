@@ -107,13 +107,13 @@ For example, an animation with a total of ten frames would have a
 (defun parrot--refresh (&optional maybe-static)
   "Show the results of updated options.
 
-MAYBE-STATIC is appropriate for changes that do not affect
-animation and cannot be better demonstrated with animation.  This
-is also affected by `parrot-animate'.  If the parrot only shows
-during animation, then it will animate to show the update.
+MAYBE-STATIC is appropriate for changes that do not affect animation and
+cannot be better demonstrated with animation. This is also affected by
+`parrot-animate'. If the parrot only shows during animation, then it
+will animate to show the update.
 
-This refresh will enable the mode if necessary to provide user
-feedback, which could also animate depending on settings."
+This refresh will enable the mode if necessary to provide user feedback,
+which could also animate depending on settings."
   (when (featurep 'parrot)
     (if (not parrot-mode)
         (parrot-mode 1)
@@ -125,9 +125,9 @@ feedback, which could also animate depending on settings."
 
 (defun parrot--show-parrot ()
   "Add parrot to the modeline.
-If you are a `doom-modeline' user, see
-`doom-modeline-segment--parrot'.  Doom performs some overrides,
-using `parrot-create' directly whenever `parrot-mode' is active."
+If you are a `doom-modeline' user, see `doom-modeline-segment--parrot'.
+Doom performs some overrides, using `parrot-create' directly whenever
+`parrot-mode' is active."
   (unless parrot--visible
     (progn
       (unless parrot--old-cdr-mode-line-position
@@ -282,15 +282,14 @@ See `parrot-party-on-org-todo-states'."
   "Animation and show/hide preference.
 Possible values:
 
-- non-nil or the symbol `animate' to always show the parrot,
-animating or not.
+- non-nil or the symbol `animate' to always show the parrot, animating
+or not.
 
-- The symbol `no-animation' to show the parrot but never animate
-it.  The symbol `hide-static' to only show the parrot when
-animating.
+- The symbol `no-animation' to show the parrot but never animate it. The
+symbol `hide-static' to only show the parrot when animating.
 
-- nil will revert to the legacy `parrot-animate-parrot' no
-  animation behavior (equivalent to `no-animation')."
+- nil will revert to the legacy `parrot-animate-parrot' no animation
+  behavior (equivalent to `no-animation')."
   :group 'parrot
   :type '(choice (const :tag "Animate and always show" animate)
                  (const :tag "Show but never animate" no-animation)
@@ -337,8 +336,8 @@ Also see `parrot-set-parrot-type'."
 
 (defcustom parrot-party-on-org-todo-states '("DONE")
   "If non-nil, these org todo states will trigger a party.
-This will happen whenever the `org-after-todo-state-change' hook
-is called.  See `org-todo-keywords'."
+This will happen whenever the `org-after-todo-state-change' hook is
+called. See `org-todo-keywords'."
   :group 'parrot
   :type '(repeat string)
   :set (lambda (sym val)
@@ -392,8 +391,8 @@ When called interactively, this function does not respect
 ;;;###autoload
 (defun parrot-stop-animation ()
   "Stop the parrot animation.
-If a persistent animation is being broken, animation will
-continue for `parrot-num-rotations'"
+If a persistent animation is being broken, animation will continue for
+`parrot-num-rotations'"
   (interactive)
   (if (eq parrot--rotations -1)
       (setq parrot--rotations 0)
@@ -406,7 +405,8 @@ continue for `parrot-num-rotations'"
 
 (defun parrot-set-parrot-type (parrot &optional silent)
   "Set the desired PARROT type in the mode line.
-When SILENT is non-nil, do not show the parrot even if settings would enable it."
+When SILENT is non-nil, do not show the parrot even if settings would
+enable it."
   (interactive
    (list
     (completing-read "Select parrot: "
