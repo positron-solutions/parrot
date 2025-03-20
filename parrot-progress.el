@@ -46,7 +46,7 @@ Use `parrot-progress-finished' to stop."
 PROCESS the git process Replace sentinel for PROCESS, usually
 `magit-process-sentinel' and modify it to call our own sentinel
 just until this PROCESS is finished."
-  (if-let ((sentinel (process-sentinel process)))
+  (if-let* ((sentinel (process-sentinel process)))
       (set-process-sentinel process
                             (lambda (&rest args)
                               (apply sentinel args)
