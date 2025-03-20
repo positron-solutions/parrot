@@ -267,7 +267,7 @@ See `parrot-party-on-org-todo-states'."
          (parrot--refresh t)))
 
 (defcustom parrot-num-rotations 3
-  "How many times party parrot will rotate."
+  "How many times the parrot will rotate."
   :group 'parrot
   :type 'integer
   :set (lambda (sym val)
@@ -296,7 +296,7 @@ animating.
          ;; map legacy nil value to 'no-animation
          ;; map legacy t value to 'animate
          (let* ((val (if (eq val nil) 'no-animation val))
-                (val (if (eq val t) 'animation val)))
+                (val (if (eq val t) 'animate val)))
            (set-default sym val)
            (parrot--refresh))))
 
