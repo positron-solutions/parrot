@@ -336,7 +336,7 @@ Also see `parrot-set-parrot-type'."
            (parrot--maybe-advise-magit-push))))
 
 (defcustom parrot-party-on-org-todo-states '("DONE")
-  "If non-nil, these org todo states will trigger party.
+  "If non-nil, these org todo states will trigger a party.
 This will happen whenever the `org-after-todo-state-change' hook
 is called.  See `org-todo-keywords'."
   :group 'parrot
@@ -406,7 +406,7 @@ continue for `parrot-num-rotations'"
 
 (defun parrot-set-parrot-type (parrot &optional silent)
   "Set the desired PARROT type in the mode line.
-SILENT will not show the parrot even if settings enable it."
+When SILENT is non-nil, do not show the parrot even if settings would enable it."
   (interactive
    (list
     (completing-read "Select parrot: "

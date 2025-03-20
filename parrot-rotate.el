@@ -103,7 +103,7 @@ It has no effect if ‘parrot-rotate-hunt-for-words’ is nil."
 
 (defcustom parrot-rotate-start-bound-regexp "[[:space:]]"
   "Regex to search backward for text rotation start point.
-This should be the point before the start character that will be NOT considered
+This should be the point before the start character that will NOT be considered
 part of the text rotation scope.  By default, it is set to [[:space:]], so
 parrot will search a whitespace-delimited word for potential rotations.  You can
 change it to [\]\[[:space:](){}<>] to treat braces/brackets as boundaries."
@@ -112,7 +112,7 @@ change it to [\]\[[:space:](){}<>] to treat braces/brackets as boundaries."
 
 (defcustom parrot-rotate-end-bound-regexp "[[:space:]]"
   "Regex to search forward for text rotation end point.
-This should be the point after the end character that will be NOT considered
+This should be the point after the end character that will NOT be considered
 part of the text rotation scope.  By default, it is set to [[:space:]], so
 parrot will search a whitespace-delimited word for potential rotations.  You can
 change it to [\]\[[:space:](){}<>] to treat braces/brackets as boundaries."
