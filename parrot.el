@@ -287,7 +287,7 @@ it.  The symbol `hide-static' to only show the parrot when not
 animating.
 
 - nil will revert to the legacy `parrot-animate-parrot' no
-  animation behavior, the same as `'no-animation'."
+  animation behavior (equivalent to `no-animation')."
   :group 'parrot
   :type '(choice (const :tag "Animate and always show" animate)
                  (const :tag "Show but never animate" no-animation)
